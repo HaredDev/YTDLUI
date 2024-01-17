@@ -38,7 +38,7 @@ namespace YTDLUI
         private string CurrentTitle = "";
         private Boolean TaskSuccess = false;
 
-        private Process runCMD(string args)
+        private Process RunCMD(string args)
         {
             Process p = new Process();
             p.StartInfo.FileName = "cmd.exe";
@@ -52,14 +52,14 @@ namespace YTDLUI
 
         public void AppendText(string text)
         {
-            Application.Current.Dispatcher.Invoke(() => { (Application.Current.MainWindow as MainWindow).AppendText(text); });
+            Application.Current.Dispatcher.Invoke(() => { (Application.Current.MainWindow as MainWindow).AppendText(text); }); 
         }
 
         //return true if data can be extracted
-        public int getYTData(string YTurl)
+        public int GetYTData(string YTurl)
         {
             AppendText("[YT-DLP]Getting streams from: " + YTurl + "\n");
-            Process p = this.runCMD("yt-dlp.exe -F " + YTurl + " --get-title");
+            Process p = this.RunCMD("yt-dlp.exe -F " + YTurl + " --get-title");
             p.Start();
             string sOut = p.StandardOutput.ReadToEnd();
             while (!p.HasExited)
@@ -70,30 +70,30 @@ namespace YTDLUI
                 return p.ExitCode;
             }
             string[] l = sOut.Split(new char[] {'\n'});
-            List<string> audioStreams = new List<string>(), videoStreams = new List<string>();
+            List<string> RawAudioStreams = new List<string>(), RawVideoStreams = new List<string>();
             for (int i = 0; i < l.Length; i++)
             {
                 string line = l[i];
                 //Get audio streams
                 if (line.Contains("audio only") && !line.Contains("unknown"))
                 {
-                    audioStreams.Add(line);
+                    RawAudioStreams.Add(line);
                 }
 
                 //Get video streams
                 if (line.Contains("video only"))
                 {
-                    videoStreams.Add(line);
+                    RawVideoStreams.Add(line);
                 }
             }
 
             CurrentTitle = l[l.Length - 2];
 
             //Format data output audio from yt-dlp
-            int count = audioStreams.Count;
-            for(int i = 0; i < count; i++)
+            int Count = RawAudioStreams.Count;
+            for(int i = 0; i < Count; i++)
             {
-                string[] line = audioStreams[i].Replace("audio only", "|").Replace(" ", "|").Split(new char[] {'|'});
+                string[] line = RawAudioStreams[i].Replace("audio only", "|").Replace(" ", "|").Split(new char[] {'|'});
                 string NewLine = "";
                 for(int j = 0; j < line.Length; j++)
                 {
@@ -114,7 +114,7 @@ namespace YTDLUI
                                     NewLine += form[k] + "-";
                                 }
                             }
-                            audioStreams[i] = NewLine;
+                            RawAudioStreams[i] = NewLine;
                         } else
                         {
                             NewLine += line[j] + "-";
@@ -124,14 +124,14 @@ namespace YTDLUI
             }
 
             AppendText("[YT-DLUI]Available Audio Streams \n");
-            for (int i = 0; i < audioStreams.Count; i++)
-                AppendText("[YT-DLUI]" + audioStreams[i] + "\n");
+            for (int i = 0; i < RawAudioStreams.Count; i++)
+                AppendText("[YT-DLUI]" + RawAudioStreams[i] + "\n");
 
             //Format data output video from yt-dlp
-            count = videoStreams.Count;
-            for (int i = 0; i < count; i++)
+            Count = RawVideoStreams.Count;
+            for (int i = 0; i < Count; i++)
             {
-                string PreLine = videoStreams[i].Replace("video only", "|").Replace(" ", "|").Replace("~", "|");
+                string PreLine = RawVideoStreams[i].Replace("video only", "|").Replace(" ", "|").Replace("~", "|");
                 if (PreLine.EndsWith("||"))
                     PreLine = PreLine.Remove(PreLine.Length - 2);
                 string[] line = PreLine.Split(new char[] { '|' });
@@ -159,7 +159,7 @@ namespace YTDLUI
                                     }
                                 }
                             }
-                            videoStreams[i] = NewLine;
+                            RawVideoStreams[i] = NewLine;
                         }         
                         else
                         {
@@ -171,18 +171,18 @@ namespace YTDLUI
 
 
             AppendText("[YT-DLUI]Available Video Streams \n");
-            for (int i = 0; i < videoStreams.Count; i++)
-                AppendText("[YT-DLUI]" + videoStreams[i] + "\n");
+            for (int i = 0; i < RawVideoStreams.Count; i++)
+                AppendText("[YT-DLUI]" + RawVideoStreams[i] + "\n");
 
-            AudioStreams = audioStreams;
-            VideoStreams = videoStreams;
+            AudioStreams = RawAudioStreams;
+            VideoStreams = RawVideoStreams;
             return p.ExitCode;
 
         }
 
-        private string getStreamURL(int streamID, string yturl)
+        private string GetStreamURL(int streamID, string yturl)
         {
-            Process p = this.runCMD("yt-dlp.exe -f " + streamID + " --get-url " + yturl);
+            Process p = this.RunCMD("yt-dlp.exe -f " + streamID + " --get-url " + yturl);
             p.Start();
             string sOut = p.StandardOutput.ReadToEnd();
             p.WaitForExit();
@@ -195,28 +195,28 @@ namespace YTDLUI
 
         public int RunFFMpeg(string yturl, int[] StreamIDS, string path)
         {
-            string command = "ffmpeg.exe";
+            string Command = "ffmpeg.exe";
             foreach (int i in StreamIDS)
             {
-                string sOut = getStreamURL(i, yturl);
+                string sOut = GetStreamURL(i, yturl);
 
                 if (sOut.Equals(""))
                     return -1;
-                command = command + " -i " + sOut;
+                Command = Command + " -i " + sOut;
             }
 
-            command = command + " -codec copy -safe 0 " + "\"" + path + "\"";
+            Command = Command + " -codec copy -safe 0 " + "\"" + path + "\"";
 
-            Process p = this.runCMD(command);
+            Process p = this.RunCMD(Command);
             p.Start();          
-            string text = p.StandardError.ReadLine();
-            while (text != null)
+            string Text = p.StandardError.ReadLine();
+            while (Text != null)
             {
-                if (text != null)
+                if (Text != null)
                 {
-                    AppendText("[FFMPEG]" + text + "\n");
+                    AppendText("[FFMPEG]" + Text + "\n");
                 }
-                text = p.StandardError.ReadLine();
+                Text = p.StandardError.ReadLine();
             }
 
             return p.ExitCode;
@@ -225,16 +225,16 @@ namespace YTDLUI
         public List<VideoData> GetFormatedVideoList()
         {
             var VData = new List<VideoData>();
-            foreach (string stream in VideoStreams)
+            foreach (string Stream in VideoStreams)
             {
-                String[] data = stream.Split(new char[] { '-' });
-                if (data.Length == (INFO + 1) && data[INFO].Equals("Premium "))
+                String[] Data = Stream.Split(new char[] { '-' });
+                if (Data.Length == (INFO + 1) && Data[INFO].Equals("Premium "))
                 {
-                    VData.Add(new VideoData(data[VRES], data[FPS], data[VSIZE], data[VBITRATE], data[VPROTO], data[VCODEC], data[INFO]));
+                    VData.Add(new VideoData(Data[VRES], Data[FPS], Data[VSIZE], Data[VBITRATE], Data[VPROTO], Data[VCODEC], Data[INFO]));
                 }
                 else
                 {
-                    VData.Add(new VideoData(data[VRES], data[FPS], data[VSIZE], data[VBITRATE], data[VPROTO], data[VCODEC]));
+                    VData.Add(new VideoData(Data[VRES], Data[FPS], Data[VSIZE], Data[VBITRATE], Data[VPROTO], Data[VCODEC]));
                 }
             }
             return VData;
@@ -244,16 +244,16 @@ namespace YTDLUI
         public List<AudioData> GetFormatedAudioList()
         {
             var VData = new List<AudioData>();
-            foreach (string stream in AudioStreams)
+            foreach (string Stream in AudioStreams)
             {
-                String[] data = stream.Split(new char[] { '-' });
-                if (data.Length == (INFO + 1))
+                String[] Data = Stream.Split(new char[] { '-' });
+                if (Data.Length == (INFO + 1))
                 {
-                    VData.Add(new AudioData(data[ACODEC], data[SAMPRATE], data[ASIZE], data[ABITRATE], data[APROTO], data[INFO]));
+                    VData.Add(new AudioData(Data[ACODEC], Data[SAMPRATE], Data[ASIZE], Data[ABITRATE], Data[APROTO], Data[INFO]));
                 }
                 else
                 {
-                    VData.Add(new AudioData(data[ACODEC], data[SAMPRATE], data[ASIZE], data[ABITRATE], data[APROTO]));
+                    VData.Add(new AudioData(Data[ACODEC], Data[SAMPRATE], Data[ASIZE], Data[ABITRATE], Data[APROTO]));
                 }
             }
             return VData;
@@ -278,12 +278,12 @@ namespace YTDLUI
 
     public class AudioData
     {
-        private string acodec;
-        private string samp;
-        private string asize;
-        private string abit;
-        private string aprot;
-        private string info;
+        private readonly string acodec;
+        private readonly string samp;
+        private readonly string asize;
+        private readonly string abit;
+        private readonly string aprot;
+        private readonly string info;
 
         internal AudioData(string Acodec, string Samp, string Asize, string Abit, string Aprot, string Info = "")
         {
@@ -329,13 +329,13 @@ namespace YTDLUI
 
     public class VideoData
     {
-        private string vres;
-        private string fps;
-        private string vsize;
-        private string vbit;
-        private string vprot;
-        private string vcodec;
-        private string info;
+        private readonly string vres;
+        private readonly string fps;
+        private readonly string vsize;
+        private readonly string vbit;
+        private readonly string vprot;
+        private readonly string vcodec;
+        private readonly string info;
 
         internal VideoData(string Vres, string Fps, string Vsize, string Vbit, string Vprot, string Vcodec, string Info = "") { 
            this.vres = Vres;

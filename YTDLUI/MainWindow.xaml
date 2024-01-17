@@ -22,9 +22,9 @@
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
 
-        <TextBox x:Name="logout" Grid.Row="1" Grid.ColumnSpan="3" Margin="10,0,10,10" Grid.RowSpan="5" Background="#FF282828" Foreground="#FF5886FF" IsReadOnly="true" Visibility="Collapsed"/>
+        <TextBox x:Name="Logout" Grid.Row="1" Grid.ColumnSpan="3" Margin="10,0,10,10" Grid.RowSpan="5" Background="#FF282828" Foreground="#FF5886FF" IsReadOnly="true" Visibility="Collapsed"/>
 
-        <TabControl x:Name="tab" Grid.Column="1" Background="#FF282828" BorderBrush="#FF282828" SelectionChanged="TabSelectChange">
+        <TabControl x:Name="Tab" Grid.Column="1" Background="#FF282828" BorderBrush="#FF282828" SelectionChanged="TabSelectChange">
             <TabItem Header="Main">
                 <TabItem.Style>
                     <Style TargetType="{x:Type TabItem}">
@@ -87,9 +87,9 @@
             </TabItem>
         </TabControl>
 
-        <Label x:Name="error" Grid.Column="1" Margin="5,26,5,0" Content="" HorizontalContentAlignment="Center" FontFamily="Noto Sans" FontWeight="Bold" Foreground="Red" Grid.Row="0"/>
+        <Label x:Name="Error" Grid.Column="1" Margin="5,26,5,0" Content="" HorizontalContentAlignment="Center" FontFamily="Noto Sans" FontWeight="Bold" Foreground="Red" Grid.Row="0"/>
 
-        <Image x:Name="ffmpegimg" Margin="0,0,174,0">
+        <Image x:Name="FFmpegimg" Margin="0,0,174,0">
             <Image.Source>
                 <BitmapImage UriSource="/images/ffmpeg_icon.png" />
             </Image.Source>
@@ -103,7 +103,7 @@
                 </Style>
             </Image.Style>
         </Image>
-        <Image x:Name="ytdlpimg" Margin="181,5,-3,5" Grid.Column="2">
+        <Image x:Name="Ytdlpimg" Margin="181,5,-3,5" Grid.Column="2">
             <Image.Source>
                 <BitmapImage UriSource="/images/ytdlp_icon.png" />
             </Image.Source>
@@ -118,14 +118,14 @@
             </Image.Style>
         </Image>
 
-        <TextBox x:Name="yturl" ToolTip="Link to Youtube video" Grid.Column="1" Grid.Row="1" Width="200" Height="20" Margin="25,37,25,10" FontFamily="Noto Sans" FontWeight="Bold" Foreground="#FF131010" RenderTransformOrigin="0.519, 1.536" />
-        <Label x:Name="ulrinputitle" Grid.Column="1" Margin="5,10,5,31" Content="Type the Youtube URL" HorizontalContentAlignment="Center" FontFamily="Noto Sans" FontWeight="Bold" Foreground="#FFFFFF" Grid.Row="1"/>
+        <TextBox x:Name="Yturl" ToolTip="Link to Youtube video" Grid.Column="1" Grid.Row="1" Width="200" Height="20" Margin="25,37,25,10" FontFamily="Noto Sans" FontWeight="Bold" Foreground="#FF131010" RenderTransformOrigin="0.519, 1.536" />
+        <Label x:Name="Ulrinputitle" Grid.Column="1" Margin="5,10,5,31" Content="Type the Youtube URL" HorizontalContentAlignment="Center" FontFamily="Noto Sans" FontWeight="Bold" Foreground="#FFFFFF" Grid.Row="1"/>
 
-        <Button x:Name="loadstream" Grid.Column="1" Grid.Row="2" Height="30" Width="200" Margin="25,0,25,36" Content="Load Youtube streams" Click="loadstream_Click" FontFamily="Noto Sans" FontWeight="Bold" Foreground="#FFFFFFFF" Background="Red"/>
+        <Button x:Name="Loadstream" Grid.Column="1" Grid.Row="2" Height="30" Width="200" Margin="25,0,25,36" Content="Load Youtube streams" Click="Loadstream_Click" FontFamily="Noto Sans" FontWeight="Bold" Foreground="#FFFFFFFF" Background="Red"/>
 
-        <ProgressBar x:Name="bar" Grid.Column="1" Grid.Row="3" Margin="0,25,0,25" HorizontalAlignment="Center" Width="233" IsIndeterminate="True" Foreground="Red" Visibility="Collapsed" Background="#FF282828"/>
+        <ProgressBar x:Name="Bar" Grid.Column="1" Grid.Row="3" Margin="0,25,0,25" HorizontalAlignment="Center" Width="233" IsIndeterminate="True" Foreground="Red" Visibility="Collapsed" Background="#FF282828"/>
 
-        <ListView  x:Name="videostream" Grid.Column="0" Grid.Row="2" Grid.RowSpan="2" FontFamily="Noto Sans" FontWeight="Bold" Foreground="#FF373232" SelectionChanged="SelectChange">
+        <ListView  x:Name="Videostream" Grid.Column="0" Grid.Row="2" Grid.RowSpan="2" FontFamily="Noto Sans" FontWeight="Bold" Foreground="#FF373232" SelectionChanged="SelectChange">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Res" DisplayMemberBinding="{Binding Vres}"/>
@@ -139,7 +139,7 @@
             </ListView.View>
         </ListView>
 
-        <ListView x:Name="audiostream" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2" FontFamily="Noto Sans" FontWeight="Bold" Foreground="#FF373232" SelectionChanged="SelectChange" >
+        <ListView x:Name="Audiostream" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2" FontFamily="Noto Sans" FontWeight="Bold" Foreground="#FF373232" SelectionChanged="SelectChange" >
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Codec" DisplayMemberBinding="{Binding Acodec}"/>
@@ -152,7 +152,7 @@
             </ListView.View>
         </ListView>
 
-        <Button x:Name="createmedia" Grid.Column='1' Grid.Row="5" Content="Create Media" Height="40" Width="200" VerticalAlignment="Top" Margin="10,10,10,0" FontFamily="Noto Sans" FontWeight="Bold" Foreground="#FFFFFF" Click="create_Click" Background="Red" />
+        <Button x:Name="Createmedia" Grid.Column='1' Grid.Row="5" Content="Create Media" Height="40" Width="200" VerticalAlignment="Top" Margin="10,10,10,0" FontFamily="Noto Sans" FontWeight="Bold" Foreground="#FFFFFF" Click="Create_Click" Background="Red" />
 
     </Grid>
 </Window>
