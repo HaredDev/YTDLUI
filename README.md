@@ -10,7 +10,7 @@
 ## Supported Systems(Systems not included will not be officially supported)
 - [x] Windows x64
 - [x] Windows Arm64
-- [ ] Linux x64
-- [ ] Linux Arm64
+- [ ] Linux x64 and x32
+- [ ] Linux Arm64 and Arm32
 - [ ] OSX x64
 - [ ] OSX Arm64
