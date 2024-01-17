@@ -5,3 +5,11 @@
 
 > [!NOTE]
 > YTDLUI is in the early development stages and may have bugs so feel free to report them over at "Issues". More features are planned and suggestions are welcomed over at "Issues"
+
+## Supported Systems(Systems not included will not be officially supported)
+- [x] Windows x64
+- [x] Windows Arm64
+- [ ] Linux x64
+- [ ] Linux Arm64
+- [ ] OSX x64
+- [ ] OSX Arm64
