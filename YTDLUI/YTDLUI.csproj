@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>ytdlp_icon.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="images\ffmpeg_icon.png" />
+    <None Remove="images\ytdlp_icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ytdlp_icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="images\ffmpeg_icon.png" />
+    <Resource Include="images\ytdlp_icon.png" />
+  </ItemGroup>
+
+</Project>
